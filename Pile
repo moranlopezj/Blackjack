@@ -1,0 +1,22 @@
+import java.util.ArrayList;
+
+abstract public class Pile {
+	
+	//data
+	protected ArrayList<Card> cards;
+	
+	//constructor
+	protected Pile(int size){
+		cards = new ArrayList<Card>(size);
+	}
+	
+	public void addCard(Card c) {
+		cards.add(c);
+	}
+	
+	public void removeCard(Card c) {
+		cards.remove(c);
+	}
+	
+	
+}
