@@ -1,0 +1,43 @@
+public class Card {
+	//data variables
+	private String name; //might be "King of Diamonds"
+	private int value;	//numerical value of card in blackjack
+	private boolean isFlipped; //true if the card is face down
+	
+	/**
+	 * Card Constructor 
+	 * @param name Name of the card including suit
+	 * @param value Numerical value of the card
+	 */
+	//constructor
+	public Card(String name, int value) {
+		this.name = name;
+		this.value = value;
+		this.isFlipped = false;
+	}
+	
+	//methods
+	public String toString() {
+		String s;
+		if(isFlipped) { //face down
+			s = String.format("XX");
+		}
+		else { //face up
+			s = String.format("%s", this.name);
+		}
+		return s;
+	}
+	
+	public int getValue() {
+		return this.value;
+	}
+	
+	//the isFlipped getter
+	public boolean isFlipped() {
+		return isFlipped;
+	}
+	
+	public void flip() {
+		isFlipped=!isFlipped;
+	}
+}
