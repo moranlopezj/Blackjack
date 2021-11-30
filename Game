@@ -1,0 +1,82 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Game {
+	public static void main (String[] args) {
+		
+		Scanner input = new Scanner(System.in);
+		Deck d = new Deck();
+		
+		System.out.printf("%nWelcome to BlackJack%n%n");
+		System.out.printf("How many human players? ");
+		int numPlayers = input.nextInt();
+		
+		ArrayList<Player> players = new ArrayList<>(numPlayers++);
+		
+		for(int i = 1; i < numPlayers; i ++) {
+			System.out.printf("Enter name of player #%d: ", i);
+			String name = input.next();
+			HumanPlayer p = new HumanPlayer(name);
+			players.add(p);
+		}
+		House h = new House();
+		players.add(h);
+		
+		//deal two cars to everyone
+		for(int i = 0; i < players.size(); i++) {
+			Player p = players.get(i);
+			d.draw(p);//first card
+			d.draw(p);//second card
+			if(p instanceof House) {
+				House house = (House) p;
+				house.flipFirstCard();
+			}
+			System.out.printf("%s", p);
+		}
+		
+		//play the game (ask everyone what they want to do)
+		for(Player p : players) {	
+			if(p instanceof House) {
+				House house = (House) p;
+				house.flipFirstCard();
+			}
+			while (!p.isBusted()) {
+				if(p.isHitting(input)) {
+					d.draw(p);
+					System.out.printf("%s", p);
+				}else {
+				   break;//pull you out of the while loop
+				}
+				if(p.getValue()>21) {
+					p.busted();
+				}
+			}
+		}
+		
+		//display the final hands of everyone
+		System.out.printf("%nFinal Hands%n");
+		for(int i = 0; i < players.size();i ++) {
+			Player p = players.get(i);
+			System.out.printf("%s", p);
+		}
+		//lazy
+		int houseValue = h.getValue();
+		//display the final result (who wins, lost and pushed)
+		System.out.printf("%nFinal Results%n");
+		for(Player p : players) {
+			if(p instanceof House) {
+				continue; //moves to the next iteration of the closest loop
+			}
+			if (p instanceof HumanPlayer) {
+				HumanPlayer player = (HumanPlayer) p;
+				if(!player.isBusted() && (player.getValue()>houseValue || houseValue>21)){
+					player.win();
+				}else if(!player.isBusted() && player.getValue() == houseValue) {
+					player.push();
+				}else {
+					player.lose();
+				}
+			}
+		}
+	}	
+}
