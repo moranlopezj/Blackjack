@@ -1,0 +1,31 @@
+import java.util.Scanner;
+
+abstract public class Player extends Hand {
+	
+	protected String name;
+	protected boolean isBusted;
+	
+	protected Player(String name) {
+		super();
+		this.name = name;
+		isBusted = false;
+	}
+	
+	//getter for isBusted
+	public boolean isBusted() {
+		return isBusted;
+	}
+	
+	//setter for isBusted
+	public void busted() {
+		isBusted = true;
+		System.out.printf("%s is busted!%n", name);
+	}
+	
+	public String toString() {
+		return String.format("%s: %s", name,super.toString());
+	}
+	
+	abstract public boolean isHitting(Scanner s);
+	
+}
